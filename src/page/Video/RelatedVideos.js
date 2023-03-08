@@ -1,48 +1,36 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchRelatedVideos } from "../../redux/features/relatedVideos/relatedVideosSlice";
+import RelatedVideo from "./RelatedVideo";
 
 const RelatedVideos = ({ id, tags }) => {
+  const { relatedVideos, isLoading, isError, error } = useSelector(
+    (state) => state.relatedVideos
+  );
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchRelatedVideos({ id, tags }));
   }, [dispatch, id, tags]);
+  let content = null;
+  if (isLoading && !isError) {
+    content = <div>Loading...</div>;
+  }
+  if (!isLoading && isError) {
+    content = <div>{error}</div>;
+  }
+  if (!isLoading && !isError && relatedVideos.length === 0) {
+    content = <div className="col-span-12">No Related Videos Found</div>;
+  }
+  if (!isLoading && !isError && relatedVideos.length > 0) {
+    content = relatedVideos.map((video) => (
+      <RelatedVideo key={video.id} video={video} />
+    ));
+  }
   return (
     <>
       <div className="col-span-full lg:col-auto max-h-[570px] overflow-y-auto">
         {/* <!-- single related video --> */}
-        <div className="w-full flex flex-row gap-2 mb-4">
-          <div className="relative w-[168px] h-[94px] flex-none duration-300 hover:scale-[1.03]">
-            <Link to="/">
-              <img
-                src="https://i3.ytimg.com/vi/6O4s7v28nlw/maxresdefault.jpg"
-                className="object-cover"
-                alt="Some video title"
-              />
-            </Link>
-            <p className="absolute right-2 bottom-2 bg-gray-900 text-gray-100 text-xs px-1 py">
-              12:10
-            </p>
-          </div>
-
-          <div className="flex flex-col w-full">
-            <Link to="/">
-              <p className="text-slate-900 text-sm font-semibold">
-                Some video title
-              </p>
-            </Link>
-            <Link
-              className="text-gray-400 text-xs mt-2 hover:text-gray-600"
-              to="/"
-            >
-              Learn with Sumit
-            </Link>
-            <p className="text-gray-400 text-xs mt-1">
-              100K views . 23 Oct 2022
-            </p>
-          </div>
-        </div>
+        {content}
       </div>
     </>
   );
