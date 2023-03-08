@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
-import { videosApi } from "./videosApi";
+import { customApi } from "../../../api/customApi";
 const initialState = {
   isLoading: false,
   isError: false,
@@ -8,8 +7,8 @@ const initialState = {
   error: "",
 };
 export const fetchVideos = createAsyncThunk("videos/fetchVideos", async () => {
-  const fetchData = await videosApi();
-  return fetchData;
+  const fetchData = await customApi("/videos");
+  return fetchData.data;
 });
 export const videosSlice = createSlice({
   name: "videos",
