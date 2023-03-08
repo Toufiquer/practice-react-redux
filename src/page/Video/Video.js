@@ -12,7 +12,6 @@ const Video = () => {
     isLoading,
     isError,
     error,
-    tags,
   } = useSelector((state) => state.video);
   const { link } = video;
   const { id } = useParams();
@@ -48,7 +47,7 @@ const Video = () => {
           <div className="grid grid-cols-3 gap-2 lg:gap-8">
             {content}
             {/* <!-- related videos --> */}
-            <RelatedVideos id={id} tags={tags} />
+            <RelatedVideos id={id} tags={video.tags} />
           </div>
         </div>
       </section>

@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { fetchRelatedVideos } from "../../redux/features/relatedVideos/relatedVideosSlice";
 
-const RelatedVideos = () => {
+const RelatedVideos = ({ id, tags }) => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchRelatedVideos({ id, tags }));
+  }, [dispatch, id, tags]);
   return (
     <>
       <div className="col-span-full lg:col-auto max-h-[570px] overflow-y-auto">
