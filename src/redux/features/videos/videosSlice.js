@@ -7,10 +7,13 @@ const initialState = {
   videos: [],
   error: "",
 };
-export const fetchVideos = createAsyncThunk("videos/fetchVideos", async () => {
-  const fetchData = await videosApi();
-  return fetchData;
-});
+export const fetchVideos = createAsyncThunk(
+  "videos/fetchVideos",
+  async ({ searchByTags, searchByText }) => {
+    const fetchData = await videosApi({ searchByTags, searchByText });
+    return fetchData;
+  }
+);
 export const videosSlice = createSlice({
   name: "videos",
   initialState,

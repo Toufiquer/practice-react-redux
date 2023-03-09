@@ -1,18 +1,21 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useMatch, useNavigate } from "react-router-dom";
 import LwsImg from "../../assets/lws.svg";
 import searchImg from "../../assets/search.svg";
 import { updateSearch } from "../../redux/features/filter/filterSlice";
 const Nav = () => {
   const { searchByTest } = useSelector((state) => state.search);
-  const [text, setText] = React.useState(searchByTest);
+  const [text, setText] = React.useState(searchByTest || "");
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(updateSearch(text));
-  }, [dispatch, text]);
+  const navigate = useNavigate();
+  const match = useMatch("/");
   const handleSubmit = (e) => {
     e.preventDefault();
+    dispatch(updateSearch(text));
+    if (!match) {
+      navigate("/");
+    }
   };
   return (
     <>
