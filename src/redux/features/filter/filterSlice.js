@@ -16,7 +16,7 @@ export const searchSlice = createSlice({
       state.searchByTags.push(action.payload);
     },
     removeTag: (state, action) => {
-      const index = state.indexOf(action.payload);
+      const index = state.searchByTags.indexOf(action.payload);
       state.searchByTags.splice(index, 1);
     },
     updateSearch: (state, action) => {
