@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import LwsImg from "../../assets/lws.svg";
 import searchImg from "../../assets/search.svg";
+import { updateSearch } from "../../redux/features/filter/filterSlice";
 const Nav = () => {
+  const { searchByTest } = useSelector((state) => state.search);
+  const [text, setText] = React.useState(searchByTest);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(updateSearch(text));
+  }, [dispatch, text]);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
   return (
     <>
       <nav className="bg-slate-100 shadow-md">
@@ -12,12 +23,14 @@ const Nav = () => {
           </Link>
           <div className="border border-slate-200 flex items-center bg-white h-10 px-5 rounded-lg text-sm ring-emerald-200">
             {/* <!-- search --> */}
-            <form>
+            <form onSubmit={(e) => handleSubmit(e)}>
               <input
                 className="outline-none border-none mr-2"
                 type="search"
                 name="search"
                 placeholder="Search"
+                value={text}
+                onChange={(e) => setText(e.target.value)}
               />
             </form>
             <img

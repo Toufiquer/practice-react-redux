@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+import searchSlice from "../features/filter/filterSlice";
 import relatedVideosSlice from "../features/relatedVideos/relatedVideosSlice";
 import tagsSlice from "../features/tags/tagsSlice";
 import videoSlice from "../features/video/videoSlice";
@@ -10,5 +11,6 @@ export const store = configureStore({
     video: videoSlice,
     relatedVideos: relatedVideosSlice,
     tags: tagsSlice,
+    search: searchSlice,
   },
 });
